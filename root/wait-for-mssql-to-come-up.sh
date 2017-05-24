@@ -9,9 +9,9 @@ do
     echo "[moodle-db-mssql] Waiting 5s for mssql to come up setup"
     sleep 5
     i=$((i+1))
-    if [ $i -gt 50 ]; then
-        echo "[moodle-db-mssql] timed out waiting for server to come up after 4 mins"
-        exit 0;
+    if [ $i -gt 60 ]; then
+        echo "[moodle-db-mssql] timed out waiting for server to come up after 5 mins"
+        exit 1;
     fi
 done
 echo "[moodle-db-mssql] SQL Server UP"
