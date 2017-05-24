@@ -3,6 +3,6 @@ services: docker
 install:
     - docker build -t moodle-db-mssql  .
 script:
-     - docker run --name test0 -d moodle-db-mssql
-     # We have to wait for SQL server to become available..
-     - docker exec test0 /wait-for-mssql-to-come-up.sh
+    - "docker run --name test0 -d moodle-db-mssql -e 'ACCEPT_EULA=Y' -e 'm@0dl3ing'"
+      # We have to wait for SQL server to become available..
+    - docker exec test0 /wait-for-mssql-to-come-up.sh
