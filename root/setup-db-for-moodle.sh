@@ -2,13 +2,8 @@
 
 set -e
 
-# Wait for the SQL Server to come up.
-until nc -z -w2 127.0.0.1 1433
-do
-    echo "[moodle-db-setup] Waiting 5s for mssql to come up setup"
-    sleep 5
-done
+./wait-for-mssql-to-come-up.sh
 
-echo "[moodle-db-setup] Setting up Moodle data"
+echo "[moodle-db-mssql] Setting up Moodle data"
 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d master -i setup.sql
-echo "[moodle-db-setup] Setup complete."
+echo "[moodle-db-mssql] Setup complete."
