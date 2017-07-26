@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
+/setup-db-for-moodle.sh &
 
-/setup-db-for-moodle.sh& /opt/mssql/bin/sqlservr
+exec /opt/mssql/bin/sqlservr
+
