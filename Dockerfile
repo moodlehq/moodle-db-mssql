@@ -1,6 +1,7 @@
-FROM microsoft/mssql-server-linux:2017-GA
+FROM mcr.microsoft.com/mssql/server:2019-latest
 
-RUN apt-get -y update  && apt-get install -y netcat
+USER root
+RUN apt-get -y update && apt-get install -y netcat
 
 ADD root/ /
 
