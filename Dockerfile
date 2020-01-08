@@ -1,6 +1,6 @@
-FROM microsoft/mssql-server-linux:2017-GA
+FROM mcr.microsoft.com/mssql/server:2017-CU18-ubuntu-16.04
 
-RUN apt-get -y update  && apt-get install -y netcat
+RUN apt-get -y update && apt-get install -y netcat
 
 ADD root/ /
 
