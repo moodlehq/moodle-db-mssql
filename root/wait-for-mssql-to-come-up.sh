@@ -3,15 +3,16 @@
 set -e
 
 i=0
-# Wait for the SQL Server to come up.
-until nc -z -w2 127.0.0.1 1433
+until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$SA_PASSWORD" -d master -l 1 -Q "SELECT 1" > /dev/null 2>&1
 do
-    echo "[moodle-db-mssql] Waiting 5s for mssql to come up setup"
-    sleep 5
+    echo "[moodle-db-mssql] Waiting for SQL to accept connections"
+    sleep 1
+
     i=$((i+1))
     if [ $i -gt 60 ]; then
-        echo "[moodle-db-mssql] timed out waiting for server to come up after 5 mins"
+        echo "[moodle-db-mssql] timed out waiting for server to accept connections"
         exit 1;
     fi
 done
+
 echo "[moodle-db-mssql] SQL Server UP"
