@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+
+if [[ -z ${DOCKERFILE_PATH} ]]; then
+    echo "DOCKERFILE_PATH not defined"
+    exit 1
+fi
+
+if [[ ! -r ${DOCKERFILE_PATH} ]]; then
+    echo "${DOCKERFILE_PATH} not readable"
+    exit 1
+fi
+
+echo "Processing ${DOCKERFILE_PATH}"
+
+# Look which image is being used as source.
+first=$(grep 'FROM ' ${DOCKERFILE_PATH})
+echo "Found '$first'"
+
+regexp='FROM *[^:]+:([0-9]+)-(CU[0-9]+).*'
+if [[ $first =~ $regexp ]];then
+    year=${BASH_REMATCH[1]}
+    cu=${BASH_REMATCH[2]}
+    # A space-separated list of additional tags to place on this image.
+    additionalTags=($year-$cu $year-latest)
+
+    # Tag and push image for each additional tag
+    for tag in ${additionalTags[@]}; do
+        echo "Tagging {$IMAGE_NAME} as ${DOCKER_REPO}:${tag}"
+        docker tag $IMAGE_NAME ${DOCKER_REPO}:${tag}
+
+        echo "Pushing ${DOCKER_REPO}:${tag}"
+        docker push ${DOCKER_REPO}:${tag}
+    done
+fi
