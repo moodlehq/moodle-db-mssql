@@ -1,5 +1,5 @@
 # moodle-db-mssql: Microsoft SQL Server for Moodle
-[![Build Status](https://travis-ci.org/moodlehq/moodle-db-mssql.svg?branch=master)](https://travis-ci.org/moodlehq/moodle-db-mssql)
+[![Build Status](https://travis-ci.com/moodlehq/moodle-db-mssql.svg?branch=master)](https://travis-ci.com/moodlehq/moodle-db-mssql)
 
 A Microsoft SQL Server for Linux instance configured for Moodle development. Based on [mcr.microsoft.com/mssql/server](https://hub.docker.com/_/microsoft-mssql-server)
 
@@ -11,7 +11,7 @@ docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=yourStrong(!)Password' -p 1433:143
 
 # Features:
 * Microsoft SQL server setup and database created ready for Moodle install
-* Backed by [automated tests](https://travis-ci.org/moodlehq/moodle-db-mssql)
+* Backed by [automated tests](https://travis-ci.com/moodlehq/moodle-db-mssql)
 
 
 
