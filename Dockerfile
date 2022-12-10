@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/mssql/server:2017-CU24-ubuntu-16.04
+FROM mcr.microsoft.com/mssql/server:2017-CU31-ubuntu-18.04
 
 
 # Starting with SQL*Server 2017-CU6, by default, flushing became
