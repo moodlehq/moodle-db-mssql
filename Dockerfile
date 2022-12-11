@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/mssql/server:2017-CU24-ubuntu-16.04
+FROM mcr.microsoft.com/mssql/server:2019-CU18-ubuntu-20.04
 
 
 # Starting with SQL*Server 2017-CU6, by default, flushing became
@@ -9,12 +9,15 @@ FROM mcr.microsoft.com/mssql/server:2017-CU24-ubuntu-16.04
 # that haven't been fixed yet (making it some env variable for the images
 # or whatever). See https://github.com/microsoft/mssql-docker/issues/355 .
 #
+# The very same applies to SQL*Server 2019.
+#
 # So here, we are just disabling such an aggressive flushing to make it
 # work like was before CU6. We don't need it for testing purposes and
 # differences, tested under standard conditions are big enough:
 # Complete phpunit runs:
-# - 2017-CU24: 1h 51m
-# - 2017-CU24 + this patch: 1h 10m
+# - 2019-CU18: 4h 38m
+# - 2019-CU18 + this patch: 1h 33m
+USER root
 RUN /opt/mssql/bin/mssql-conf traceflag 3979 on && \
         /opt/mssql/bin/mssql-conf set control.alternatewritethrough 0 && \
         /opt/mssql/bin/mssql-conf set control.writethrough 0
@@ -22,4 +25,6 @@ RUN /opt/mssql/bin/mssql-conf traceflag 3979 on && \
 ADD root/ /
 
 EXPOSE 1433
+
+USER mssql
 CMD ["/docker-entrypoint.sh"]
