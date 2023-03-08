@@ -11,11 +11,11 @@ jobs:
 
       - name: Build image
         run: |
-          docker build -t moodle-db-mssql:latest .
+          docker build -t moodle-db-mssql .
 
       - name: Start container
         run: |
-          docker run --name test0 -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=m@0dl3ing' -d moodle-db-mssql:latest
+          docker run --name test0 -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=m@0dl3ing' -d moodle-db-mssql
           docker exec test0 /wait-for-mssql-to-come-up.sh # We have to wait for SQL server to become available..
 
       - name: Run tests
