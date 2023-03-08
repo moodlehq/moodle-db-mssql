@@ -1,0 +1,29 @@
+name: Moodle SQL*Server Docker CI
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  Test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build image
+        run: |
+          docker build -t moodle-db-mssql:latest .
+
+      - name: Start container
+        run: |
+          docker run --name test0 -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=m@0dl3ing' -d moodle-db-mssql:latest
+          docker exec test0 /wait-for-mssql-to-come-up.sh # We have to wait for SQL server to become available..
+
+      - name: Run tests
+        run: |
+          # Verify we have a working SQL server.
+          docker exec test0 /opt/mssql-tools/bin/sqlcmd -U sa -P m@0dl3ing -Q "SELECT @@VERSION" | grep "Microsoft SQL Server"
+
+      - name: Output logs
+        if: ${{ failure() }}
+        run: |
+          docker logs test0
